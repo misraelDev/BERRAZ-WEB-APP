@@ -1,0 +1,86 @@
+<div class="grid grid-cols-12 gap-4 md:gap-6">
+  <!-- Metric Cards -->
+  <div class="col-span-12 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 md:gap-6">
+    <app-metric-card
+      title="Clientes potenciales hoy"
+      [value]="12"
+      subtitle="+3 vs ayer"
+      [chartData]="leadsHoyData"
+      [change]="25.0"
+      trend="up"
+      changeText="vs ayer"
+      chartColor="#10b981"
+    />
+    <app-metric-card
+      title="Sin contactar"
+      [value]="5"
+      subtitle="+2 vs ayer"
+      [chartData]="sinContactarData"
+      [change]="15.5"
+      trend="up"
+      changeText="que la semana pasada"
+      chartColor="#ef4444"
+    />
+    <app-metric-card
+      title="Cliente potencial activos"
+      [value]="89"
+      subtitle="+5 vs ayer"
+      [chartData]="leadsActivosData"
+      [change]="4.7"
+      trend="up"
+      changeText="que la semana pasada"
+      chartColor="#3b82f6"
+    />
+    <app-metric-card
+      title="Cliente potencial latente"
+      [value]="213"
+      subtitle="+3 vs ayer"
+      [chartData]="leadsLatentesData"
+      [change]="1.4"
+      trend="up"
+      changeText="que la semana pasada"
+      chartColor="#f59e0b"
+    />
+    <app-metric-card
+      title="Propiedades"
+      value="1,547"
+      subtitle="+7 vs ayer"
+      [chartData]="propiedadesData"
+      [change]="0.5"
+      trend="up"
+      changeText="que la semana pasada"
+      chartColor="#10b981"
+    />
+    <app-metric-card
+      title="Operaciones"
+      [value]="12"
+      subtitle="+2 vs ayer"
+      [chartData]="operacionesData"
+      [change]="20.0"
+      trend="up"
+      changeText="que la semana pasada"
+      chartColor="#3b82f6"
+    />
+  </div>
+
+  <div class="col-span-12 space-y-6 xl:col-span-7">
+    <div><app-ecommerce-metrics /></div>
+    <div><app-monthly-sales-chart /></div>
+  </div>
+
+  <div class="col-span-12 xl:col-span-5">
+    <app-monthly-target />
+  </div>
+
+  <div class="col-span-12">
+    <app-statics-chart />
+  </div>
+
+  <div class="col-span-12 xl:col-span-5">
+    <app-demographic-card />
+  </div>
+
+  <div class="col-span-12 xl:col-span-7">
+    <app-recent-orders/>
+  </div>
+</div>

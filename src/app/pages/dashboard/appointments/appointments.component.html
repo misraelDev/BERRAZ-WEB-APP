@@ -1,0 +1,12 @@
+<app-page-breadcrumb pageTitle="Citas" />
+<app-reusable-table
+  [data]="appointmentsData"
+  [columns]="columns"
+  [searchKeys]="['title', 'clientName', 'responsibleAgent', 'propertyAddress']"
+  searchPlaceholder="Buscar por título, cliente, agente o ubicación..."
+  (exportEvent)="handleExport($event)"
+  (addEvent)="handleAdd()"
+  addButtonLabel="Nueva Cita"
+  exportButtonLabel="Exportar"
+  title="Citas"
+/>

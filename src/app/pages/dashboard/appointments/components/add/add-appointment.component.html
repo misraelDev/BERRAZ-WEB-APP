@@ -1,0 +1,321 @@
+<div>
+  <app-page-breadcrumb pageTitle="Agregar Cita" />
+  <form (ngSubmit)="handleSubmit($event)" class="space-y-6">
+    <!-- 1. Información básica de la cita -->
+    <app-component-card title="Información básica de la cita">
+      <div class="space-y-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <app-label for="title">Título / Motivo de la cita *</app-label>
+            <app-input-field
+              id="title"
+              type="text"
+              [value]="formData().title"
+              (valueChange)="handleInputChange('title', $event)"
+              placeholder="Ej.: Visita a propiedad, Reunión para firma, Llamada de seguimiento"
+            />
+          </div>
+
+          <div>
+            <app-label for="appointmentType">Tipo de cita *</app-label>
+            <app-select
+              [options]="appointmentTypeOptions"
+              placeholder="Seleccione el tipo de cita"
+              [defaultValue]="formData().appointmentType"
+              (valueChange)="handleSelectChange('appointmentType', $event)"
+            />
+          </div>
+        </div>
+
+        <div>
+          <app-label for="description">Descripción / Notas internas</app-label>
+          <app-text-area
+            [value]="formData().description"
+            (valueChange)="handleInputChange('description', $event)"
+            [rows]="4"
+            placeholder="Descripción detallada de la cita y notas internas"
+          />
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <app-label for="startDate">Fecha de inicio *</app-label>
+            <app-date-picker
+              id="startDate"
+              placeholder="Seleccione la fecha"
+              (dateChange)="handleDateChange($event)"
+            />
+          </div>
+
+          <div>
+            <app-label for="startTime">Hora de inicio *</app-label>
+            <app-input-field
+              id="startTime"
+              type="time"
+              [value]="formData().startTime"
+              (valueChange)="handleInputChange('startTime', $event)"
+            />
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <app-label for="duration">Duración (minutos)</app-label>
+            <app-input-field
+              id="duration"
+              type="number"
+              [value]="formData().duration"
+              (valueChange)="handleInputChange('duration', $event)"
+              placeholder="Ej: 30, 60, 90"
+            />
+          </div>
+
+          <div>
+            <app-label for="endTime">Hora de fin</app-label>
+            <app-input-field
+              id="endTime"
+              type="time"
+              [value]="calculatedEndTime() || formData().endTime"
+              (valueChange)="handleInputChange('endTime', $event)"
+              [disabled]="!!calculatedEndTime()"
+              [className]="calculatedEndTime() ? 'bg-gray-50 dark:bg-gray-800' : ''"
+            />
+            <p class="mt-1.5 text-xs text-gray-500 dark:text-gray-400">
+              {{ calculatedEndTime() ? 'Calculada automáticamente' : 'Ingrese manualmente' }}
+            </p>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div>
+            <app-label for="agentReminder">Recordatorio para agente</app-label>
+            <app-select
+              [options]="agentReminderOptions"
+              placeholder="Seleccione"
+              [defaultValue]="formData().agentReminder"
+              (valueChange)="handleSelectChange('agentReminder', $event)"
+            />
+          </div>
+
+          <div>
+            <app-label for="agentReminderTime">Tiempo para enviar recordatorio para agente</app-label>
+            <app-select
+              [options]="reminderTimeOptions"
+              placeholder="Seleccione el tiempo"
+              [defaultValue]="formData().agentReminderTime"
+              (valueChange)="handleSelectChange('agentReminderTime', $event)"
+            />
+          </div>
+
+          <div>
+            <app-label for="notifyByMethod">Notificar por</app-label>
+            <app-select
+              [options]="notifyByOptions"
+              placeholder="Seleccione el método"
+              [defaultValue]="formData().notifyByMethod"
+              (valueChange)="handleSelectChange('notifyByMethod', $event)"
+            />
+          </div>
+        </div>
+      </div>
+    </app-component-card>
+
+    <!-- 3. Participantes e Inmueble asociado y Ubicación -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
+      <!-- Participantes -->
+      <app-component-card title="Participantes">
+        <div class="space-y-6">
+          <div>
+            <app-label for="clientId">Cliente asociado (buscar en CRM)</app-label>
+            <app-select
+              [options]="clientOptions"
+              placeholder="Buscar y seleccionar cliente"
+              [defaultValue]="formData().clientId"
+              (valueChange)="handleSelectChange('clientId', $event)"
+            />
+          </div>
+
+          <div class="grid grid-cols-1 gap-6">
+            <div>
+              <app-label for="clientName">Nombre</app-label>
+              <app-input-field
+                id="clientName"
+                type="text"
+                [value]="formData().clientName"
+                (valueChange)="handleInputChange('clientName', $event)"
+                placeholder="Nombre del cliente"
+              />
+            </div>
+
+            <div>
+              <app-label for="clientPhone">Teléfono</app-label>
+              <app-input-field
+                id="clientPhone"
+                type="tel"
+                [value]="formData().clientPhone"
+                (valueChange)="handleInputChange('clientPhone', $event)"
+                placeholder="+52 123 456 7890"
+              />
+            </div>
+          </div>
+
+          <div>
+            <app-label for="clientEmail">Email</app-label>
+            <app-input-field
+              id="clientEmail"
+              type="email"
+              [value]="formData().clientEmail"
+              (valueChange)="handleInputChange('clientEmail', $event)"
+              placeholder="cliente@ejemplo.com"
+            />
+          </div>
+
+          <div>
+            <app-label for="responsibleAgent">Agente responsable *</app-label>
+            <app-select
+              [options]="agentOptions"
+              placeholder="Seleccione el agente responsable"
+              [defaultValue]="formData().responsibleAgent"
+              (valueChange)="handleSelectChange('responsibleAgent', $event)"
+            />
+          </div>
+        </div>
+      </app-component-card>
+
+      <!-- Inmueble asociado y Ubicación -->
+      <app-component-card title="Inmueble asociado y ubicación">
+        <div class="space-y-6">
+          <div>
+            <app-label for="propertyId">Propiedad (search / selector)</app-label>
+            <app-select
+              [options]="propertyOptions"
+              placeholder="Buscar y seleccionar propiedad"
+              [defaultValue]="formData().propertyId"
+              (valueChange)="handleSelectChange('propertyId', $event)"
+            />
+          </div>
+
+          <div>
+            <app-label for="propertyAddress">Dirección</app-label>
+            <app-input-field
+              id="propertyAddress"
+              type="text"
+              [value]="formData().propertyAddress"
+              (valueChange)="handleInputChange('propertyAddress', $event)"
+              placeholder="Dirección completa de la propiedad"
+            />
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <app-label for="propertyCode">Código interno</app-label>
+              <app-input-field
+                id="propertyCode"
+                type="text"
+                [value]="formData().propertyCode"
+                (valueChange)="handleInputChange('propertyCode', $event)"
+                placeholder="Código de referencia interno"
+              />
+            </div>
+
+            <div>
+              <app-label for="propertyOwner">Propietario (si aplica)</app-label>
+              <app-input-field
+                id="propertyOwner"
+                type="text"
+                [value]="formData().propertyOwner"
+                (valueChange)="handleInputChange('propertyOwner', $event)"
+                placeholder="Nombre del propietario"
+              />
+            </div>
+          </div>
+
+          <div>
+            <app-label for="propertyAccess">Acceso a la propiedad (instrucciones o código)</app-label>
+            <app-input-field
+              id="propertyAccess"
+              type="text"
+              [value]="formData().propertyAccess"
+              (valueChange)="handleInputChange('propertyAccess', $event)"
+              placeholder="Instrucciones de acceso, código de seguridad, etc."
+            />
+          </div>
+
+          <div>
+            <app-label for="modality">Modalidad *</app-label>
+            <app-select
+              [options]="modalityOptions"
+              placeholder="Seleccione la modalidad"
+              [defaultValue]="formData().modality"
+              (valueChange)="handleSelectChange('modality', $event)"
+            />
+          </div>
+
+          @if (formData().modality === 'presencial') {
+            <div>
+              <app-label for="meetingLocation">Lugar de encuentro (dirección manual o mapa)</app-label>
+              <app-input-field
+                id="meetingLocation"
+                type="text"
+                [value]="formData().meetingLocation"
+                (valueChange)="handleInputChange('meetingLocation', $event)"
+                placeholder="Dirección completa del lugar de encuentro"
+              />
+            </div>
+
+            @if (formData().mapUrl) {
+              <div>
+                <app-label for="mapUrl">URL del mapa (Google Maps autogenerado)</app-label>
+                <app-input-field
+                  id="mapUrl"
+                  type="url"
+                  [value]="formData().mapUrl"
+                  (valueChange)="handleInputChange('mapUrl', $event)"
+                  placeholder="URL de Google Maps"
+                />
+                <p class="mt-1.5 text-xs text-gray-500 dark:text-gray-400">
+                  Se genera automáticamente. Puede editarse manualmente.
+                </p>
+              </div>
+            }
+          }
+
+          @if (formData().modality === 'online') {
+            <div>
+              <app-label for="videoCallUrl">URL de videollamada *</app-label>
+              <app-input-field
+                id="videoCallUrl"
+                type="url"
+                [value]="formData().videoCallUrl"
+                (valueChange)="handleInputChange('videoCallUrl', $event)"
+                placeholder="https://meet.google.com/xxx-xxxx-xxx o Zoom, Teams, etc."
+              />
+            </div>
+          }
+        </div>
+      </app-component-card>
+    </div>
+
+    <!-- Botones de acción -->
+    <div class="flex justify-end gap-2 mt-6">
+      <app-button
+        size="sm"
+        variant="outline"
+        type="button"
+        (btnClick)="handleCancel()"
+        [startIcon]="closeIcon"
+      >
+        Cancelar
+      </app-button>
+      <app-button
+        size="sm"
+        variant="primary"
+        type="submit"
+        [startIcon]="checkIcon"
+      >
+        Guardar Cita
+      </app-button>
+    </div>
+  </form>
+</div>
+

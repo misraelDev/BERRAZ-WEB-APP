@@ -1,0 +1,14 @@
+<app-page-breadcrumb pageTitle="Clientes" />
+<app-reusable-table
+  [data]="clientsData"
+  [columns]="columns"
+  [searchKeys]="['firstName', 'lastName', 'email', 'phone', 'channel', 'location']"
+  searchPlaceholder="Buscar por nombre, email, teléfono, canal o ubicación..."
+  (exportEvent)="handleExport($event)"
+  (addEvent)="handleAdd()"
+  addButtonLabel="Agregar cliente"
+  exportButtonLabel="Exportar"
+  title="Clientes"
+  [renderActions]="renderActions.bind(this)"
+  actionsLabel="Acciones"
+/>

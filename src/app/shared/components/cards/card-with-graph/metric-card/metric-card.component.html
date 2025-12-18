@@ -1,0 +1,77 @@
+<div class="overflow-hidden rounded-2xl border border-gray-200 bg-white p-4 dark:border-gray-800 dark:bg-white/3">
+  <!-- Header -->
+  <div class="mb-4 flex justify-between">
+    <div>
+      <h3 class="text-base font-semibold text-gray-800 dark:text-white/90">
+        {{ title }}
+      </h3>
+      <p class="mt-0.5 text-xs text-gray-500 dark:text-gray-400">
+        {{ subtitle }}
+      </p>
+    </div>
+
+    <!-- Dropdown Menu -->
+    <div class="relative h-fit">
+      <button
+        type="button"
+        (click)="toggleDropdown()"
+        [class]="
+          'transition-colors ' +
+          (isDropdownOpen()
+            ? 'text-gray-700 dark:text-white'
+            : 'text-gray-400 hover:text-gray-700 dark:hover:text-white')
+        "
+      >
+        <span [innerHTML]="horizontalDotsIcon | safeHtml"></span>
+      </button>
+
+      <app-dropdown [isOpen]="isDropdownOpen()" (close)="closeDropdown()" className="absolute top-full right-0 z-40 w-40 shadow-theme-lg dark:bg-gray-dark rounded-2xl border border-gray-200 bg-white p-2 dark:border-gray-800">
+        <app-dropdown-item
+          (itemClick)="closeDropdown()"
+          className="text-xs flex w-full rounded-lg px-3 py-2 text-left font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-white/5 dark:hover:text-gray-300"
+        >
+          Ver más
+        </app-dropdown-item>
+        <app-dropdown-item
+          (itemClick)="closeDropdown()"
+          className="text-xs flex w-full rounded-lg px-3 py-2 text-left font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-white/5 dark:hover:text-gray-300"
+        >
+          Eliminar
+        </app-dropdown-item>
+      </app-dropdown>
+    </div>
+  </div>
+
+  <!-- Content -->
+  <div class="flex justify-between items-end gap-3">
+    <div>
+      <h3 class="text-2xl font-semibold text-gray-800 dark:text-white/90">
+        {{ formattedValue() }}
+      </h3>
+      @if (change !== undefined) {
+        <p class="mt-0.5 text-xs text-gray-500 dark:text-gray-400">
+          <span [class]="'mr-1 inline-block font-semibold ' + trendColor">
+            {{ trendSymbol }}{{ change.toFixed(2) }}%
+          </span>
+          {{ changeText }}
+        </p>
+      }
+    </div>
+
+    <!-- Chart -->
+    <div class="w-28 h-14">
+      <apx-chart
+        [series]="chartSeries"
+        [chart]="chart"
+        [stroke]="stroke"
+        [markers]="markers"
+        [colors]="colors"
+        [xaxis]="xaxis"
+        [yaxis]="yaxis"
+        [grid]="grid"
+        [tooltip]="tooltip"
+      ></apx-chart>
+    </div>
+  </div>
+</div>
+

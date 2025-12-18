@@ -1,4 +1,4 @@
-# Free Angular Tailwind Admin Dashboard Template - TailAdmin Angular
+# Angular Tailwind Admin Dashboard Template - TailAdmin Angular
 
 ![TailAdmin Angular Admin Dashboard](./angular-tailwind.png)
 

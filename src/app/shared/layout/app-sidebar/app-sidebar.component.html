@@ -2,28 +2,25 @@
   class="fixed flex flex-col top-0 px-5 left-0 bg-white dark:bg-gray-900 dark:border-gray-800 text-gray-900 h-screen transition-all duration-300 ease-in-out z-50 border-r border-gray-200"
   [ngClass]="{
     'w-[290px]':
-      (isExpanded$ | async) || (isMobileOpen$ | async) || (isHovered$ | async),
+      (isExpanded$ | async) || (isMobileOpen$ | async),
     'w-[90px]': !(
       (isExpanded$ | async) ||
-      (isMobileOpen$ | async) ||
-      (isHovered$ | async)
+      (isMobileOpen$ | async)
     ),
     'translate-x-0': isMobileOpen$ | async,
     '-translate-x-full': !(isMobileOpen$ | async),
     'xl:translate-x-0': true
   }"
-  (mouseenter)="onSidebarMouseEnter()"
-  (mouseleave)="sidebarService.setHovered(false)"
 >
   <div
     class="py-8 flex"
     [ngClass]="{
-      'xl:justify-center': !((isExpanded$ | async) || (isHovered$ | async)),
-      'justify-start': (isExpanded$ | async) || (isHovered$ | async)
+      'xl:justify-center': !(isExpanded$ | async),
+      'justify-start': (isExpanded$ | async)
     }"
   >
     <a routerLink="/">
-      @if ((isExpanded$ | async) || (isHovered$ | async) || (isMobileOpen$ | async)) {
+      @if ((isExpanded$ | async) || (isMobileOpen$ | async)) {
       <img
         class="dark:hidden"
         src="/images/logo/logo.svg"
@@ -52,13 +49,11 @@
           <h2
             class="mb-4 text-xs uppercase flex leading-[20px] text-gray-400"
             [ngClass]="{
-              'xl:justify-center': !(
-                (isExpanded$ | async) || (isHovered$ | async)
-              ),
-              'justify-start': (isExpanded$ | async) || (isHovered$ | async)
+              'xl:justify-center': !(isExpanded$ | async),
+              'justify-start': (isExpanded$ | async)
             }"
           >
-            @if ((isExpanded$ | async) || (isHovered$ | async) || (isMobileOpen$ | async)) 
+            @if ((isExpanded$ | async) || (isMobileOpen$ | async)) 
             { Menu } 
            @else {
             <svg
@@ -88,11 +83,8 @@
                   [class.menu-item-active]="openSubmenu === 'main-' + i"
                   [class.menu-item-inactive]="openSubmenu !== 'main-' + i"
                   [ngClass]="{
-                    'xl:justify-center': !(
-                      (isExpanded$ | async) || (isHovered$ | async)
-                    ),
-                    'xl:justify-start':
-                      (isExpanded$ | async) || (isHovered$ | async)
+                    'xl:justify-center': !(isExpanded$ | async),
+                    'xl:justify-start': (isExpanded$ | async)
                   }"
                 >
                   <span
@@ -102,15 +94,13 @@
                     [innerHTML]="nav.icon | safeHtml"
                   >
                   </span>
-                  @if ((isExpanded$ | async) || (isHovered$ | async) ||
-                  (isMobileOpen$ | async)) {
+                  @if ((isExpanded$ | async) || (isMobileOpen$ | async)) {
 
                   <span class="menu-item-text">
                     {{ nav.name }}
                   </span>
                   } 
-                  @if (nav.new && ((isExpanded$ | async) || (isHovered$ |
-                  async) || (isMobileOpen$ | async))) {
+                  @if (nav.new && ((isExpanded$ | async) || (isMobileOpen$ | async))) {
                   <span
                     class="ml-auto absolute right-10 menu-dropdown-badge"
                     [ngClass]="{
@@ -121,8 +111,7 @@
                     new
                   </span>
                   } 
-                  @if ((isExpanded$ | async) || (isHovered$ | async) ||
-                  (isMobileOpen$ | async)) {
+                  @if ((isExpanded$ | async) || (isMobileOpen$ | async)) {
                   <svg
                     [ngClass]="{
                       'rotate-180 text-brand-500': openSubmenu === 'main-' + i
@@ -148,7 +137,7 @@
                   class="overflow-hidden transition-all duration-300"
                   [id]="'main-' + i"
                   [style.display]="
-                    (isExpanded$ | async) || (isHovered$ | async) || (isMobileOpen$ | async) 
+                    (isExpanded$ | async) || (isMobileOpen$ | async) 
                       ? 'block' 
                       : 'none'
                   "
@@ -230,7 +219,7 @@
                   <span
                     class="menu-item-text"
                   >
-                    @if ((isExpanded$ | async) || (isHovered$ | async) || (isMobileOpen$ | async)) {
+                    @if ((isExpanded$ | async) || (isMobileOpen$ | async)) {
                     {{ nav.name }}
                     }
                   </span>
@@ -251,15 +240,12 @@
           <h2
             class="mb-4 text-xs uppercase flex leading-[20px] text-gray-400"
             [ngClass]="{
-              'xl:justify-center': !(
-                (isExpanded$ | async) || (isHovered$ | async)
-              ),
-              'justify-start': (isExpanded$ | async) || (isHovered$ | async)
+              'xl:justify-center': !(isExpanded$ | async),
+              'justify-start': (isExpanded$ | async)
             }"
           >
             @if (
               (isExpanded$ | async) ||
-                (isHovered$ | async) ||
                 (isMobileOpen$ | async)
             ) {
               Others
@@ -292,11 +278,8 @@
                   [ngClass]="{
                      'menu-item-active': openSubmenu === 'others-' + i,
                      'menu-item-inactive': openSubmenu !== 'others-' + i,
-                    'xl:justify-center': !(
-                      (isExpanded$ | async) || (isHovered$ | async)
-                    ),
-                    'xl:justify-start':
-                      (isExpanded$ | async) || (isHovered$ | async)
+                    'xl:justify-center': !(isExpanded$ | async),
+                    'xl:justify-start': (isExpanded$ | async)
                   }"
                 >
                   <span
@@ -308,15 +291,13 @@
                     [innerHTML]="nav.icon | safeHtml"
                   >
                   </span>
-                  @if ((isExpanded$ | async) || (isHovered$ | async) ||
-                  (isMobileOpen$ | async)) {
+                  @if ((isExpanded$ | async) || (isMobileOpen$ | async)) {
 
                   <span class="menu-item-text">
                     {{ nav.name }}
                   </span>
                   } 
-                  @if (nav.new && ((isExpanded$ | async) || (isHovered$ |
-                  async) || (isMobileOpen$ | async))) {
+                  @if (nav.new && ((isExpanded$ | async) || (isMobileOpen$ | async))) {
                   <span
                     class="ml-auto absolute right-10 menu-dropdown-badge"
                     [ngClass]="{
@@ -327,8 +308,7 @@
                     new
                   </span>
                   } 
-                  @if ((isExpanded$ | async) || (isHovered$ | async) ||
-                  (isMobileOpen$ | async)) {
+                  @if ((isExpanded$ | async) || (isMobileOpen$ | async)) {
                   <svg
                     [ngClass]="{
                       'rotate-180 text-brand-500': openSubmenu === 'others-' + i
@@ -354,7 +334,7 @@
                   class="overflow-hidden transition-all duration-300"
                   [id]="'others-' + i"
                   [style.display]="
-                    (isExpanded$ | async) || (isHovered$ | async) || (isMobileOpen$ | async) 
+                    (isExpanded$ | async) || (isMobileOpen$ | async) 
                       ? 'block' 
                       : 'none'
                   "
@@ -436,7 +416,7 @@
                   <span
                     class="menu-item-text"
                   >
-                    @if ((isExpanded$ | async) || (isHovered$ | async) || (isMobileOpen$ | async)) {
+                    @if ((isExpanded$ | async) || (isMobileOpen$ | async)) {
                     {{ nav.name }}
                     }
                   </span>
@@ -450,7 +430,7 @@
         <!-- end other section -->
       </div>
     </nav>
-    @if ((isExpanded$ | async) || (isHovered$ | async) || (isMobileOpen$ | async)) {
+    @if ((isExpanded$ | async) || (isMobileOpen$ | async)) {
     <app-sidebar-widget />
     }
   </div>

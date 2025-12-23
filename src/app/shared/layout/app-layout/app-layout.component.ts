@@ -20,12 +20,10 @@ import { AppHeaderComponent } from '../app-header/app-header.component';
 
 export class AppLayoutComponent {
   readonly isExpanded$;
-  readonly isHovered$;
   readonly isMobileOpen$;
 
   constructor(public sidebarService: SidebarService) {
     this.isExpanded$ = this.sidebarService.isExpanded$;
-    this.isHovered$ = this.sidebarService.isHovered$;
     this.isMobileOpen$ = this.sidebarService.isMobileOpen$;
   }
 
@@ -35,7 +33,7 @@ export class AppLayoutComponent {
       'transition-all',
       'duration-300',
       'ease-in-out',
-      (this.isExpanded$ || this.isHovered$) ? 'xl:ml-[290px]' : 'xl:ml-[90px]',
+      this.isExpanded$ ? 'xl:ml-[290px]' : 'xl:ml-[90px]',
       this.isMobileOpen$ ? 'ml-0' : ''
     ];
   }

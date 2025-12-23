@@ -120,7 +120,6 @@ export class AppSidebarComponent {
 
   readonly isExpanded$;
   readonly isMobileOpen$;
-  readonly isHovered$;
 
   private subscription: Subscription = new Subscription();
 
@@ -131,7 +130,6 @@ export class AppSidebarComponent {
   ) {
     this.isExpanded$ = this.sidebarService.isExpanded$;
     this.isMobileOpen$ = this.sidebarService.isMobileOpen$;
-    this.isHovered$ = this.sidebarService.isHovered$;
   }
 
   ngOnInit() {
@@ -146,9 +144,9 @@ export class AppSidebarComponent {
 
     // Subscribe to combined observables to close submenus when all are false
     this.subscription.add(
-      combineLatest([this.isExpanded$, this.isMobileOpen$, this.isHovered$]).subscribe(
-        ([isExpanded, isMobileOpen, isHovered]) => {
-          if (!isExpanded && !isMobileOpen && !isHovered) {
+      combineLatest([this.isExpanded$, this.isMobileOpen$]).subscribe(
+        ([isExpanded, isMobileOpen]) => {
+          if (!isExpanded && !isMobileOpen) {
             // this.openSubmenu = null;
             // this.savedSubMenuHeights = { ...this.subMenuHeights };
             // this.subMenuHeights = {};
@@ -194,13 +192,6 @@ export class AppSidebarComponent {
     }
   }
 
-  onSidebarMouseEnter() {
-    this.isExpanded$.subscribe(expanded => {
-      if (!expanded) {
-        this.sidebarService.setHovered(true);
-      }
-    }).unsubscribe();
-  }
 
   private setActiveMenuFromRoute(currentUrl: string) {
     const menuGroups = [

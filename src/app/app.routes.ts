@@ -22,6 +22,7 @@ import { HomeComponent } from './pages/dashboard/home/home.component';
 import { ClientsComponent } from './pages/dashboard/clients/clients.component';
 import { AppointmentsComponent } from './pages/dashboard/appointments/appointments.component';
 import { AddAppointmentComponent } from './pages/dashboard/appointments/components/add/add-appointment.component';
+import { NotificationsComponent } from './pages/notifications/notifications.component';
 
 export const routes: Routes = [
   {
@@ -64,6 +65,11 @@ export const routes: Routes = [
         path:'profile',
         component:ProfileComponent,
         title:'Angular Profile Dashboard | TailAdmin - Angular Admin Dashboard Template'
+      },
+      {
+        path:'notifications',
+        component:NotificationsComponent,
+        title:'Notifications | TailAdmin - Angular Admin Dashboard Template'
       },
       {
         path:'form-elements',
